@@ -1,0 +1,6 @@
+gradio==4.11.0
+loguru==0.7.2
+numpy==1.24.4
+opencv_contrib_python==4.6.0.66
+opencv_python==4.6.0.66
+paddleocr==2.7.0.3

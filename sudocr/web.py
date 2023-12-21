@@ -2,7 +2,6 @@ import gradio as gr
 from ocr import ocr
 from utils import to_hodoku
 
-
 def handle(image):
     if isinstance(image, str):
         raise gr.Error("输入错误")

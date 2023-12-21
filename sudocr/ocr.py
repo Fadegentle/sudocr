@@ -6,7 +6,7 @@ import utils
 from log import logger
 
 
-class OCR:
+class _OCR:
 
     def __init__(self):
         self.model = PaddleOCR(lang='en', use_gpu=True)
@@ -29,3 +29,6 @@ class OCR:
         digits = [self.ocr_digit(utils.crop(cell, sudo)) for cell in cell_coordinates]
         puzzle = [digits[i:i + 9] for i in range(0, len(digits), 9)]
         return puzzle
+
+
+ocr = _OCR()

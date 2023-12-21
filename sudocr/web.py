@@ -1,5 +1,5 @@
 import gradio as gr
-from ocr import OCR
+from ocr import ocr
 from utils import to_hodoku
 
 
@@ -8,13 +8,13 @@ def handle(image):
         raise gr.Error("输入错误")
 
     try:
-        res = to_hodoku(OCR().ocr_sudo(image))
+        res = to_hodoku(ocr.ocr_sudo(image))
     except Exception as e:
         raise gr.Error(f"识别失败: {e}")
     return res
 
 
-with gr.Blocks(gr.themes.Default(font=gr.themes.GoogleFont("IBM Plex Mono"), text_size='lg')) as ocr:
+with gr.Blocks(gr.themes.Default(font=gr.themes.GoogleFont("IBM Plex Mono"), text_size='lg')) as app:
     gr.Interface(
         handle,
         gr.Image(sources=["upload", "webcam", "clipboard"]),
@@ -25,4 +25,4 @@ with gr.Blocks(gr.themes.Default(font=gr.themes.GoogleFont("IBM Plex Mono"), tex
         ),
         title="数独 OCR"
     )
-ocr.launch(height=1080)
+app.launch(height=1080)

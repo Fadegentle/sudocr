@@ -1,11 +1,18 @@
-from loguru import logger
+import loguru
 
 
-class Logger:
+class _Logger:
 
-    def __init__(self):
-        logger.add(sink="stdout", level="INFO", format="{message}")
+    def __init__(self, level='INFO', format='{message}'):
+        self.logger = loguru.logger
+        self.level = level
+        self.format = format
+        loguru.logger.add(sink="stdout", level=self.level, format=self.format)
 
     @staticmethod
     def save(file='sudocr'):
-        logger.add(f"../log/{file}.log", level="DEBUG", rotation="1 week", compression="zip")
+        loguru.logger.add(f"../logs/{file}.log", rotation="1 week", compression="zip")
+
+
+log_level = 'DEBUG'
+logger = _Logger(log_level).logger

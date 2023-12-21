@@ -1,8 +1,9 @@
 import cv2
 import numpy as np
 from paddleocr import PaddleOCR
-from loguru import logger
+
 import utils
+from log import logger
 
 
 class OCR:
@@ -18,7 +19,6 @@ class OCR:
         char = (ocr_data[0][0][0] if ocr_data else '').strip().replace(':', '8')
         return char if char.isdigit() else ''
 
-    @logger.catch
     def ocr_sudo(self, image):
         if isinstance(image, str):
             image = cv2.imread(image)

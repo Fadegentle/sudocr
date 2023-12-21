@@ -1,7 +1,4 @@
-import sys
-
 import gradio as gr
-from loguru import logger
 from ocr import OCR
 from utils import to_hodoku
 
@@ -15,12 +12,6 @@ def handle(image):
     except Exception as e:
         raise gr.Error(f"识别失败: {e}")
     return res
-
-
-def get_sukocr():
-    logger.remove()
-    logger.add(sys.stderr, level="DEBUG")
-    return handle
 
 
 ocr = gr.Interface(

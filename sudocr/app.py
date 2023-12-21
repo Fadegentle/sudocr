@@ -1,6 +1,6 @@
 import argparse
 
-from loguru import logger
+from log import logger
 from ocr import OCR
 
 parser = argparse.ArgumentParser(description='识别数独')

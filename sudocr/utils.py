@@ -1,22 +1,37 @@
 import cv2
 import numpy as np
-from loguru import logger
+from log import logger, log_level
 
 
-def show(*args):
-    for i, j in enumerate(args):
-        cv2.imshow(str(i), j)  # TODO：打印函数名
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+def show(func):
+    def wrapper(*args):
+        res = func(*args)
+        if log_level == 'DEBUG':
+            for i, j in enumerate((res,)):
+                cv2.imshow(str(i), j)  # TODO：打印函数名
+                cv2.waitKey(0)
+            cv2.destroyAllWindows()
+        return res
+
+    return wrapper
 
 
 def show_contours(contours, image, color=(0, 0, 255)):
-    contours_n = len(contours)
-    for i, contour in enumerate(contours):
-        res = cv2.drawContours(image.copy(), [contour], -1, color, 3)
-        cv2.imshow(f'Contour {i + 1}/{contours_n}', res)
-        cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    def show_contours_fun(func):
+        def wrapper(*args):
+            res = func(*args)
+            if log_level == 'DEBUG':
+                contours_n = len(contours)
+                for i, contour in enumerate(contours):
+                    res = cv2.drawContours(image.copy(), [contour], -1, color, 3)
+                    cv2.imshow(f'Contour {i + 1}/{contours_n}', res)
+                    cv2.waitKey(0)
+                cv2.destroyAllWindows()
+            return res
+
+        return wrapper
+
+    return show_contours_fun
 
 
 def get_cell_coordinates(cell_width):
@@ -29,7 +44,6 @@ def get_cell_coordinates(cell_width):
             y0 = row * cell_width + border_offset
             x1 = x0 + cell_width - border_offset
             y1 = y0 + cell_width - border_offset
-            logger.info(f'cell({row}, {col}): {(x0, x1, y0, y1)}')
             cells.append((x0, x1, y0, y1))
 
     return cells
@@ -90,16 +104,13 @@ def get_corners_xy(contours):
 
 def crop(coordinates, image):
     x_min, x_max, y_min, y_max = coordinates
-    logger.info(f'查看坐标 {coordinates}')
     cropped = np.array(image)[y_min:y_max, x_min:x_max]
-    logger.info(f'cropped {len(cropped)}')
     return cropped
 
 
-# utils.show(handled, gray, thresh)  # TODO: debug show
+@show
 def handle(contours, image):
     logger.info(f'开始处理图片')
-    show_contours(contours, image)
     if len(contours) > 1:
         contour_area0 = cv2.contourArea(contours[0])
         contour_area1 = cv2.contourArea(contours[1])

@@ -14,14 +14,15 @@ def handle(image):
     return res
 
 
-ocr = gr.Interface(
-    handle,
-    gr.Image(sources=["upload", "webcam", "clipboard"]),
-    gr.Textbox(
+with gr.Blocks(gr.themes.Default(font=gr.themes.GoogleFont("IBM Plex Mono"), text_size='lg')) as ocr:
+    gr.Interface(
+        handle,
+        gr.Image(sources=["upload", "webcam", "clipboard"]),
+        gr.Textbox(
             label="Output",
             info="HoDoKu Format",
             show_copy_button=True,
         ),
-    title="数独 OCR"
-)
-ocr.launch()
+        title="数独 OCR"
+    )
+ocr.launch(height=1080)

@@ -14,5 +14,5 @@ class _Logger:
         loguru.logger.add(f"../logs/{file}.log", rotation="1 week", compression="zip")
 
 
-log_level = 'DEBUG'
+log_level = 'INFO'
 logger = _Logger(log_level).logger

@@ -2,6 +2,7 @@ import gradio as gr
 from ocr import ocr
 from utils import to_hodoku
 
+
 def handle(image):
     if isinstance(image, str):
         raise gr.Error("输入错误")
@@ -25,4 +26,7 @@ with gr.Blocks(gr.themes.Default(font=gr.themes.GoogleFont("IBM Plex Mono"), tex
         title="数独 OCR",
         allow_flagging='never',
     )
-app.launch(share=True, height=1080)
+
+
+if __name__ == '__main__':
+    app.launch(share=True, height=1080)

@@ -23,6 +23,7 @@ with gr.Blocks(gr.themes.Default(font=gr.themes.GoogleFont("IBM Plex Mono"), tex
             info="HoDoKu Format",
             show_copy_button=True,
         ),
-        title="数独 OCR"
+        title="数独 OCR",
+        allow_flagging='never',
     )
-app.launch(height=1080)
+app.launch(share=True, height=1080)
